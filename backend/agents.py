@@ -12,7 +12,7 @@ class ResearchAgents():
         return Agent(
             role='Reasearch Manager',
             goal=f"""Generate a list of JSON objects containing the urls for 3 recent blog articles and
-#                 the url and title for 3 recent YouTube videos, for each technology in each business area.
+                the url and title for 3 recent YouTube videos, for each technology in each business area.
 
             Technologies: {technologies}
             Business Areas: {businessareas}
