@@ -28,7 +28,6 @@ def run_multiagent():
     thread = Thread(target=kickoff_crew, args=(
         input_id, technologies, businessareas))
     thread.start()
-
     # return jsonify({"status": "success"}), 200
     return jsonify({"input_id": input_id}), 200
 
