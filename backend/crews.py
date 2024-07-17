@@ -1,4 +1,5 @@
 from langchain_openai import ChatOpenAI
+from .log_manager import append_event
 
 
 class TechnologyResearchCrew:
@@ -18,9 +19,13 @@ class TechnologyResearchCrew:
         if not self.crew:
             print(f"Crew not found for {self.input_id}")
             return
+        append_event(self.input_id, "CREW STARTED")
+
         try:
             print(f"Running crew for {self.input_id}")
             results = self.crew.kickoff()
+            append_event(self.input_id, "CREW COMPLETED")
             return results
         except Exception as e:
+            append_event(self.input_id, "CREW FAILED")
             return str(e)
