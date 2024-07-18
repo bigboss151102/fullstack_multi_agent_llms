@@ -1,6 +1,7 @@
 from textwrap import dedent
 from crewai import Agent, Task
 from .log_manager import append_event
+from .models import *
 
 
 class ResearchTask():
@@ -24,4 +25,29 @@ class ResearchTask():
             callback=self.append_event_callback,
             context=tasks,
             output_json=BusinessareaInfoList
+        )
+
+    def technology_research(self, agent: Agent, technology: str, businessareas: list[str]):
+        return Task(
+            description=dedent(f"""Research the business areas {businessareas} for the {technology} technology.
+                            For each business area, find the URLs for 3 recent blog articles and the URLs and titles for
+                            3 recent YouTube videos in each business area.
+                            Return this collected information in a JSON object.
+
+                            Helpful Tips:
+                            - To find the blog articles names and URLs, perform searches on Google such like the following:
+                            - "{technology} [BUSINESS AREA HERE] blog articles"
+                            - To find the youtube videos, perform searches on YouTube such as the following:
+                            - "{technology} in [BUSINESS AREA HERE]"
+                            Important:
+                            - Once you've found the information, immediately stop searching for additional information.
+                            - Only return the requested information. NOTHING ELSE!
+                            - Do not generate fake information. Only return the information you find. Nothing else!
+                            - Do not stop researching until you find the requested information for each business area in the technology.
+                        """),
+            agent=agent,
+            expected_output="""A JSON object containing the researched information for each business area in the technology.""",
+            callback=self.append_event_callback,
+            output_json=BusinessareaInfo,
+            async_execution=True
         )
