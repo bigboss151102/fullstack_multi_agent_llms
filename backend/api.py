@@ -1,6 +1,8 @@
 from threading import Thread
 from flask import Flask, jsonify, request, abort
 from uuid import uuid4
+from .crews import TechnologyResearchCrew
+from .log_manager import *
 
 app = Flask(__name__)
 
@@ -13,6 +15,24 @@ def get_status(input_id):
 def kickoff_crew(input_id, technologies: list[str], businessareas: list[str]):
     print(
         f"Running crew for {input_id} with technologies {technologies} and businessareas {businessareas}")
+
+    results = None
+    try:
+        technology_research_crew = TechnologyResearchCrew(input_id)
+        technology_research_crew.setup_crew(technologies, businessareas)
+        results = technology_research_crew.kickoff()
+    except Exception as e:
+        print(f"CREW FAILED : {str(e)}")
+        append_event(input_id, f"CREW FAILED: {str(e)}")
+        with outputs_lock:
+            outputs[input_id].status = 'EROER'
+            outputs[input_id].result = str(e)
+
+    with outputs_lock:
+        outputs[input_id].status = 'COMPLETE'
+        outputs[input_id].result = results
+        outputs[input_id].events.append(
+            Event(timestamp=datetime.now(), data="Crew Complete"))
 
 
 @app.route('/api/multiagent', methods=['POST'])
