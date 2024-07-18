@@ -1,11 +1,15 @@
 from ast import List
 from crewai import Agent
 from langchain_openai import ChatOpenAI
+from crewai_tools import SerperDevTool
+from tools.youtube_search_tools import *
 
 
 class ResearchAgents():
     def __init__(self):
         # add tools after
+        self.searchInternetTool = SerperDevTool()
+        self.youtubeSearchTool = YoutubeVideoSearchTool()
         self.llm = ChatOpenAI(model='gpt-4-turbo-preview')
 
     def research_manager(self, technologies: List[str], businessareas: List[str]) -> Agent:
@@ -50,3 +54,9 @@ class ResearchAgents():
             llm=self.llm,
             verbose=True
         )
+
+# class ResearchAgents():
+#     def __init__(self):
+#         self.searchInternetTool = SerperDevTool()
+#         self.youtubeSearchTool = YoutubeVideoSearchTool()
+#         self.llm = ChatOpenAI(model="gpt-4-turbo-preview")

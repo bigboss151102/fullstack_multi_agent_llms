@@ -1,8 +1,8 @@
 from threading import Thread
 from flask import Flask, jsonify, request, abort
 from uuid import uuid4
-from .crews import TechnologyResearchCrew
-from .log_manager import *
+from crews import TechnologyResearchCrew
+from log_manager import *
 import json
 
 app = Flask(__name__)
@@ -12,11 +12,15 @@ app = Flask(__name__)
 def get_status(input_id):
     with outputs_lock:
         output = outputs.get(input_id)
-        if output is outputs:
+        print("+========================================================================")
+        print(output)
+        if output is None:
             abort(404, description="Output not found")
         # Convert output sang json object
         try:
             result_json = json.loads(output.result)
+            print("==================================================================")
+            print(result_json)
         except json.JSONDecodeError:
             # Nếu fails thì xét kết quả như output ban đầu luôn :))) kiểu str
             result_json = output.result

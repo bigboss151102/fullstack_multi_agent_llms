@@ -11,7 +11,7 @@ class BusinessareaInfo(BaseModel):
     technology: str
     businessarea: str
     blog_articles_urls: List[str]
-    youtube_interviews_urls: List[NamedUrl]
+    youtube_videos_urls: List[NamedUrl]
 
 
 class BusinessareaInfoList(BaseModel):
