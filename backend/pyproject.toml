@@ -2,7 +2,7 @@
 name = "level3multiagent"
 version = "0.1.0"
 description = "Automate Internet and Youtube Search with CrewAI"
-authors = ["julio colomer <info@aiaccelera.com>"]
+authors = ["Hoang Trong <hoangcongtrong054@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.10.0,<3.12"
