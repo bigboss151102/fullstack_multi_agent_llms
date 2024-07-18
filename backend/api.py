@@ -3,13 +3,33 @@ from flask import Flask, jsonify, request, abort
 from uuid import uuid4
 from .crews import TechnologyResearchCrew
 from .log_manager import *
+import json
 
 app = Flask(__name__)
 
 
 @app.route('/api/multiagent/<input_id>', methods=['GET'])
 def get_status(input_id):
-    return jsonify({"status": f"Getting status for {input_id}"}), 200
+    with outputs_lock:
+        output = outputs.get(input_id)
+        if output is outputs:
+            abort(404, description="Output not found")
+        # Convert output sang json object
+        try:
+            result_json = json.loads(output.result)
+        except json.JSONDecodeError:
+            # Nếu fails thì xét kết quả như output ban đầu luôn :))) kiểu str
+            result_json = output.result
+        return jsonify({
+            "input_id": input_id,
+            "status": output.status,
+            "result": result_json,
+            "events": [{
+                'timestamp': event.timestamp.isoformat(),
+                'data': event.data
+            } for event in output.events]
+        })
+    # return jsonify({"status": f"Getting status for {input_id}"}), 200
 
 
 def kickoff_crew(input_id, technologies: list[str], businessareas: list[str]):
