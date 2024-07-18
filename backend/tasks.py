@@ -4,7 +4,7 @@ from .log_manager import append_event
 from .models import *
 
 
-class ResearchTask():
+class ResearchTasks():
     def __init__(self, input_id):
         self.input_id = input_id
 

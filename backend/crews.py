@@ -1,6 +1,8 @@
 from langchain_openai import ChatOpenAI
 from .log_manager import append_event
 from .agents import ResearchAgents
+from .tasks import *
+from crewai import Crew
 
 
 class TechnologyResearchCrew:
@@ -17,7 +19,20 @@ class TechnologyResearchCrew:
         research_manager = agents.research_manager(technologies, businessareas)
         research_agent = agents.research_agent()
         # Setup Tasks
+        tasks = ResearchTasks(input_id=self.input_id)
+        technology_research_task = [
+            tasks.technology_research(
+                research_agent, technology, businessareas)
+            for technology in technologies
+        ]
+        manage_research_task = tasks.manage_research(
+            research_manager, technologies, businessareas, technology_research_task)
         # Setup Crews
+        self.crew = Crew(
+            agents=[research_manager, research_agent],
+            tasks=[*technology_research_task, manage_research_task],
+            verbose=2,
+        )
 
     def kickoff(self):
         if not self.crew:
