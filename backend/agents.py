@@ -7,7 +7,6 @@ from tools.youtube_search_tools import *
 
 class ResearchAgents():
     def __init__(self):
-        # add tools after
         self.searchInternetTool = SerperDevTool()
         self.youtubeSearchTool = YoutubeVideoSearchTool()
         self.llm = ChatOpenAI(model='gpt-4-turbo-preview')
@@ -31,6 +30,7 @@ class ResearchAgents():
             backstory="""As a Research Manager, you are responsible for aggregating all the researched information into a list.""",
             llm=self.llm,
             # add tools
+            tools=[self.searchInternetTool, self.youtubeSearchTool],
             verbose=True,
             allow_delegation=True
         )
@@ -50,13 +50,7 @@ class ResearchAgents():
                 - Only return the requested information. NOTHING ELSE!
                 - Do not generate fake information. Only return the information you find. Nothing else!
                 """,
-            # add tools
+            tools=[self.searchInternetTool, self.youtubeSearchTool],
             llm=self.llm,
             verbose=True
         )
-
-# class ResearchAgents():
-#     def __init__(self):
-#         self.searchInternetTool = SerperDevTool()
-#         self.youtubeSearchTool = YoutubeVideoSearchTool()
-#         self.llm = ChatOpenAI(model="gpt-4-turbo-preview")
