@@ -4,8 +4,10 @@ from uuid import uuid4
 from crews import TechnologyResearchCrew
 from log_manager import *
 import json
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 
 @app.route('/api/multiagent/<input_id>', methods=['GET'])

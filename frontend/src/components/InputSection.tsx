@@ -6,14 +6,14 @@ type InputSectionProps = {
     title: string;
     placeholder: string;
     data: string[];
-    setData: Dispatch<SetStateAction<string[]>>
-}
+    setData: Dispatch<SetStateAction<string[]>>;
+};
 
 export default function InputSection({
     title,
     placeholder,
-    setData,
     data,
+    setData,
 }: InputSectionProps) {
     const [inputValue, setInputValue] = useState<string>("");
 
