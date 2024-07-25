@@ -6,13 +6,13 @@ import InputSection from "@/components/InputSection";
 import { useCrewOutput } from "@/hooks/useCrewOutput";
 
 export default function Home() {
-  // Hooks
+  // Call Hooks
   const crewOutput = useCrewOutput();
 
   return (
     <div className="bg-white min-h-screen text-black">
       <div className="flex flex-col">
-        {/* Input sections in one row */}
+        {/* Input */}
         <div className="flex w-full">
           <div className="w-1/2 p-4">
             <InputSection
@@ -32,7 +32,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Output section and event log in a single column below */}
+        {/* Add Output and Log cua Terminal */}
         <div className="flex flex-col w-full p-4">
           <div className="flex justify-between items-center mb-4">
             <button
@@ -44,7 +44,7 @@ export default function Home() {
             </button>
           </div>
           <FinalOutput businessareaInfoList={crewOutput.businessareaInfoList} />
-          <div className="my-8"> {/* Added margin for spacing */}
+          <div className="my-8">
             <EventLog events={crewOutput.events} />
           </div>
         </div>
