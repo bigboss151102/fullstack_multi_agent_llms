@@ -6,7 +6,7 @@
 - [Run Application](#run-application)
 - [Contact](#contact)
 
-# Demp
+# Demo
 ![Demo](./demo_agent.gif)
 
 # Description
